@@ -1,4 +1,4 @@
-package com.example.voicebottle.ui.home
+package com.example.voicebottle.ui.reply
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.voicebottle.R
-import com.example.voicebottle.databinding.FragmentHomeBinding
+import com.example.voicebottle.databinding.FragmentRecordBinding
 import com.example.voicebottle.databinding.FragmentReplyBinding
 
-class HomeFragment : Fragment() {
+class ReplyFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentReplyBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentReplyBinding.inflate(inflater, container, false)
         return binding.root
     }
 

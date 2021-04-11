@@ -12,14 +12,26 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.voicebottle.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_record"
+        android:name="com.example.voicebottle.ui.record.RecordFragment"
+        android:label="@string/title_record"
+        tools:layout="@layout/fragment_record" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.voicebottle.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_reply"
+        android:name="com.example.voicebottle.ui.reply.ReplyFragment"
+        android:label="@string/title_reply"
+        tools:layout="@layout/fragment_reply" />
+
+    <fragment
+        android:id="@+id/navigation_list"
+        android:name="com.example.voicebottle.ui.list.ListFragment"
+        android:label="@string/title_list"
+        tools:layout="@layout/fragment_list" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.voicebottle.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
