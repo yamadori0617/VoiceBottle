@@ -2,29 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/soundNameText"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.record.RecordFragment">
-
-    <TextView
-        android:id="@+id/text_record"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.emrekose.recordbutton.RecordButton
         android:id="@+id/recordButton"
         android:layout_width="126dp"
         android:layout_height="116dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="16dp"
         app:buttonGap="10dp"
         app:buttonRadius="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,19 +19,59 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:maxMilisecond="10000"
-        app:progressColor="@color/design_default_color_primary"
+        app:progressColor="#ff0000"
         app:progressStroke="10"
         app:recordIcon="@drawable/ic_keyboard_voice_white_36dp" />
 
-    <Button
+    <TextView
+        android:id="@+id/recordDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/kuwairo"
+        android:fontFamily="@font/pastel_crayon"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/glassBottleImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/glassBottleImage"
+        android:layout_width="195dp"
+        android:layout_height="145dp"
+        android:src="@drawable/img_glass_bottle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.535" />
+
+    <ImageButton
         android:id="@+id/playbackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="START PLAYING"
-        app:layout_constraintBottom_toTopOf="@+id/recordButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="24dp"
+        android:tint="@color/kuwairo"
+        android:backgroundTint="@color/shiracha"
+        android:src="@drawable/ic_baseline_play_arrow_24"
+        app:layout_constraintEnd_toEndOf="@+id/glassBottleImage"
+        app:layout_constraintStart_toStartOf="@+id/glassBottleImage"
+        app:layout_constraintTop_toBottomOf="@+id/soundWaveImage" />
+
+    <ImageView
+        android:id="@+id/soundWaveImage"
+        android:layout_width="120dp"
+        android:layout_height="53dp"
+        android:rotation="-27"
+        android:src="@drawable/ic_voice_wave"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/glassBottleImage"
+        app:layout_constraintEnd_toEndOf="@+id/glassBottleImage"
+        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintStart_toStartOf="@+id/glassBottleImage"
+        app:layout_constraintTop_toTopOf="@+id/glassBottleImage"
+        app:layout_constraintVertical_bias="0.532" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
