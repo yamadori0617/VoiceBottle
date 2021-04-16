@@ -52,12 +52,13 @@
         android:id="@+id/playbackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:tint="@color/kuwairo"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/shiracha"
         android:src="@drawable/ic_baseline_play_arrow_24"
-        app:layout_constraintEnd_toEndOf="@+id/glassBottleImage"
-        app:layout_constraintStart_toStartOf="@+id/glassBottleImage"
+        android:tint="@color/kuwairo"
+        app:layout_constraintEnd_toEndOf="@+id/soundWaveImage"
+        app:layout_constraintHorizontal_bias="0.986"
+        app:layout_constraintStart_toStartOf="@+id/soundWaveImage"
         app:layout_constraintTop_toBottomOf="@+id/soundWaveImage" />
 
     <ImageView
@@ -73,5 +74,17 @@
         app:layout_constraintStart_toStartOf="@+id/glassBottleImage"
         app:layout_constraintTop_toTopOf="@+id/glassBottleImage"
         app:layout_constraintVertical_bias="0.532" />
+
+    <ImageButton
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/shiracha"
+        android:src="@drawable/ic_baseline_send_24"
+        android:tint="@color/kuwairo"
+        app:layout_constraintStart_toEndOf="@+id/playbackButton"
+        app:layout_constraintTop_toBottomOf="@+id/soundWaveImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

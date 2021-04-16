@@ -21,7 +21,7 @@ import java.nio.file.Files
 
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
-private const val AUDIO_RECORD_DIR = "/AudioRecord"
+private const val AUDIO_RECORD_DIR = "/AudioRecording"
 
 class MainActivity : AppCompatActivity() {
     private  lateinit var binding: ActivityMainBinding
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
-        val audioRecordDir = File(filesDir, "/AudioRecord")
+        val audioRecordDir = File(filesDir, "/AudioRecording")
         if(!audioRecordDir.exists()) {
             audioRecordDir.mkdirs()
         }
