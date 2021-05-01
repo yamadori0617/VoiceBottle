@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Environment.DIRECTORY_MUSIC
@@ -16,6 +17,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.voicebottle.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import io.realm.RealmConfiguration
+import io.realm.internal.OsRealmConfig
 import java.io.File
 import java.nio.file.Files
 
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //val config : RealmConfiguration = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
