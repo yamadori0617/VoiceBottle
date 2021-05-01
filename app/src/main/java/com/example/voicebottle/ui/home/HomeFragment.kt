@@ -8,17 +8,24 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.voicebottle.EditTextDialog
 import com.example.voicebottle.R
+import com.example.voicebottle.User
 import com.example.voicebottle.databinding.FragmentHomeBinding
 import com.example.voicebottle.databinding.FragmentReplyBinding
+import io.realm.Realm
+import io.realm.kotlin.where
 
 class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var realm: Realm
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
