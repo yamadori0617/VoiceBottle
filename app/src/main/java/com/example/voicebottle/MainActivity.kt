@@ -1,26 +1,24 @@
 package com.example.voicebottle
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.os.Environment.DIRECTORY_MUSIC
-import android.os.Environment.DIRECTORY_PICTURES
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.voicebottle.databinding.ActivityMainBinding
+import com.example.voicebottle.ui.home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.internal.OsRealmConfig
+import io.realm.kotlin.where
 import java.io.File
-import java.nio.file.Files
 
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
@@ -33,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
     private lateinit var player: MediaPlayer
+
+    private lateinit var realm: Realm
 
     override fun onRequestPermissionsResult(
             requestCode: Int,
@@ -54,11 +54,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //val config : RealmConfiguration = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //val config : RealmConfiguration = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -75,6 +74,15 @@ class MainActivity : AppCompatActivity() {
         player.setVolume(0.22F, 0.22F)
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
+
+        realm = Realm.getDefaultInstance()
+        val user = realm.where<User>().findAll().count()
+        if (user == 0) {
+            val dialog = EditTextDialog("名前を入力してください", "OK", "匿名さん", {})
+            dialog.setCancelable(false)
+            dialog.show(supportFragmentManager, "send_name_dialog")
+        }
+
 
         val audioRecordDir = File(filesDir, "/AudioRecording")
         if(!audioRecordDir.exists()) {

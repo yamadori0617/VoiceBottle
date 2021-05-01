@@ -129,9 +129,8 @@ class RecordFragment : Fragment() {
             binding.soundWaveImage.visibility = View.VISIBLE
         }
         fileName = latestFile.toString()
-        val format = SimpleDateFormat("yyyyMMdd_HHmmss")
         binding.recordDateText.text = latestRecordingDate
-
+        val format = SimpleDateFormat("yyyyMMdd_HHmmss")
         val recordButton = binding.recordButton
         var mStartRecording = false
 
@@ -184,6 +183,7 @@ class RecordFragment : Fragment() {
             when(mStartPlaying) {
                 true -> {
                     playbackButton.setImageResource(R.drawable.ic_baseline_pause_24)
+
                 }
                 false -> {
                     playbackButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
@@ -199,7 +199,7 @@ class RecordFragment : Fragment() {
                 "キャンセル", {
                     Snackbar.make(it, "キャンセルしました", Snackbar.LENGTH_SHORT).show()
                 })
-            dialog.show(parentFragmentManager, "send_dialog")
+            dialog.show(parentFragmentManager, "send_bottle_dialog")
         }
     }
 
@@ -208,13 +208,13 @@ class RecordFragment : Fragment() {
             val maxId = db.where<AudioRecording>().max("file_id")
             val nextId = (maxId?.toLong() ?: 0L) + 1L
             val audioRecording = db.createObject<AudioRecording>(nextId)
-            audioRecording.user_id = ""
-            audioRecording.file_name = sendfileName
+            audioRecording.file_path = sendfileName
             audioRecording.sender_id = ""
         }
         Snackbar.make(view, "ボトルを流しました", Snackbar.LENGTH_SHORT).show()
 
         binding.soundWaveImage.visibility = View.INVISIBLE
+        binding.recordDateText.visibility = View.INVISIBLE
 
     }
 
