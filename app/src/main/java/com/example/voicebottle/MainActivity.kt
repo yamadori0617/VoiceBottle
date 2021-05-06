@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //val config : RealmConfiguration = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
@@ -78,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         realm = Realm.getDefaultInstance()
         val user = realm.where<User>().findAll().count()
         if (user == 0) {
-            val dialog = EditTextDialog("名前を入力してください", "OK", "匿名さん", {})
+            val dialog = EditTextDialog("名前を入力してください", "匿名さん", "OK", {})
             dialog.setCancelable(false)
             dialog.show(supportFragmentManager, "send_name_dialog")
         }

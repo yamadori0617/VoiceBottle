@@ -39,12 +39,11 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
 
     override fun onBindViewHolder(holder: ReplyAdapter.ViewHolder,
                                   position: Int) {
-        val audio_recording: AudioRecording? = getItem(position)
-        holder.created_at.text = DateFormat.format("yyyy-MM-dd HH:mm:ss",
-                                                    audio_recording?.created_at)
-        holder.sender_name.text = audio_recording?.sender_name
+        val audioRecording: AudioRecording? = getItem(position)
+        holder.created_at.text = audioRecording?.created_at
+        holder.sender_name.text = audioRecording?.sender_name
         holder.itemView.setOnClickListener {
-            listener?.invoke(audio_recording?.file_path)
+            listener?.invoke(audioRecording?.file_path)
             //RecordFragment().onPlay(true)
         }
     }
