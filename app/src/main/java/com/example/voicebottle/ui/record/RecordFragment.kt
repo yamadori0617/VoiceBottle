@@ -28,24 +28,23 @@ import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import java.io.File
 import java.io.IOException
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val LOG_TAG = "AudioRecordTest"
+private const val LOG_TAG = "AudioRecord"
 
 class RecordFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var _binding: FragmentRecordBinding? = null
     private val binding get() = _binding!!
     private lateinit var realm: Realm
 
+    private val audioFilePath = "/AudioRecording"
     private var fileName: String = ""
-    private var sendfileName: String = ""
     private var latestRecordingDate: String = ""
+    lateinit var sendNameFile: File
+    lateinit var latestFile: File
 
     private var recorder: MediaRecorder? = null
     private var player: MediaPlayer? = null
@@ -124,7 +123,7 @@ class RecordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val latestFile = File(context?.filesDir, "/AudioRecording/latestRecord.3gp")
+        latestFile = File(context?.filesDir, "${audioFilePath}/latestRecord.3gp")
         if (latestFile.exists()) {
             binding.soundWaveImage.visibility = View.VISIBLE
         }
@@ -154,8 +153,8 @@ class RecordFragment : Fragment() {
                     binding.recordDateText.text = latestRecordingDate
                     //binding.recordDateText.text = fileName
 
-                    sendfileName =  File(context?.filesDir,
-                            "/AudioRecording/${date}.3gp").toString()
+                    sendNameFile =  File(context?.filesDir,
+                            "${audioFilePath}/${latestRecordingDate}.3gp")
                 } catch (e: Exception) {
 
                 }
@@ -170,8 +169,8 @@ class RecordFragment : Fragment() {
                 latestRecordingDate = format.format(date)
                 binding.recordDateText.text = latestRecordingDate
 
-                sendfileName =  File(context?.filesDir,
-                        "/AudioRecording/${date}.3gp").toString()
+                sendNameFile =  File(context?.filesDir,
+                        "${audioFilePath}/${latestRecordingDate}.3gp")
             }
         })
 
@@ -193,29 +192,34 @@ class RecordFragment : Fragment() {
         }
         Log.e(LOG_TAG, fileName)
 
+
         binding.sendButton.setOnClickListener {
-            val dialog = ConfirmDialog("送信しますか？",
-                "送信", {},
-                "キャンセル", {
-                    Snackbar.make(it, "キャンセルしました", Snackbar.LENGTH_SHORT).show()
-                })
-            dialog.show(parentFragmentManager, "send_bottle_dialog")
+            if (latestFile.exists()) {
+                val dialog = ConfirmDialog("送信しますか？",
+                    "送信", {
+                        Snackbar.make(view, "ボトルを流しました", Snackbar.LENGTH_SHORT).show()
+
+                        val newNameFile = latestFile.renameTo(sendNameFile)
+
+                        realm.executeTransaction { db: Realm ->
+                            val maxId = db.where<AudioRecording>().max("file_id")
+                            val nextId = (maxId?.toLong() ?: 0L) + 1L
+                            val audioRecording = db.createObject<AudioRecording>(nextId)
+                            audioRecording.file_path = "${audioFilePath}/${latestRecordingDate}.3gp"
+                            audioRecording.sender_id = ""
+                            audioRecording.sender_name = ""
+                            audioRecording.created_at = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
+                        }
+
+                        binding.soundWaveImage.visibility = View.INVISIBLE
+                        binding.recordDateText.visibility = View.INVISIBLE
+                    },
+                    "キャンセル", {
+                        Snackbar.make(it, "キャンセルしました", Snackbar.LENGTH_SHORT).show()
+                    })
+                dialog.show(parentFragmentManager, "send_bottle_dialog")
+            }
         }
-    }
-
-    private fun sendAudioRecording(view: View) {
-        realm.executeTransaction { db: Realm ->
-            val maxId = db.where<AudioRecording>().max("file_id")
-            val nextId = (maxId?.toLong() ?: 0L) + 1L
-            val audioRecording = db.createObject<AudioRecording>(nextId)
-            audioRecording.file_path = sendfileName
-            audioRecording.sender_id = ""
-        }
-        Snackbar.make(view, "ボトルを流しました", Snackbar.LENGTH_SHORT).show()
-
-        binding.soundWaveImage.visibility = View.INVISIBLE
-        binding.recordDateText.visibility = View.INVISIBLE
-
     }
 
     override fun onResume() {
