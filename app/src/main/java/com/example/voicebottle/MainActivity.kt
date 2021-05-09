@@ -4,22 +4,19 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.voicebottle.databinding.ActivityMainBinding
-import com.example.voicebottle.ui.home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.internal.OsRealmConfig
+import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import java.io.File
-
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 private const val AUDIO_RECORD_DIR = "/AudioRecording"
@@ -45,12 +42,11 @@ class MainActivity : AppCompatActivity() {
         } else {
             false
         }
-        // 権限を得られなかった場合、終了する。
+
         if (!permissionToRecordAccepted) {
             finish()
         }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,18 +70,33 @@ class MainActivity : AppCompatActivity() {
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
 
-        realm = Realm.getDefaultInstance()
-        val user = realm.where<User>().findAll().count()
-        if (user == 0) {
-            val dialog = EditTextDialog("名前を入力してください", "匿名さん", "OK", {})
-            dialog.setCancelable(false)
-            dialog.show(supportFragmentManager, "send_name_dialog")
-        }
-
-
         val audioRecordDir = File(filesDir, "/AudioRecording")
         if(!audioRecordDir.exists()) {
             audioRecordDir.mkdirs()
+        }
+
+        realm = Realm.getDefaultInstance()
+        val user = realm.where<User>().findAll().count()
+        if (user == 0) {
+            val dialog = EditTextDialog("名前を入力してください", "匿名さん", "OK") {
+                val apiService = RestApiService()
+                val sendName = SendName("なんやねん。")
+                apiService.addUser(sendName) {
+                    if(it?.success == true) {
+                        realm.executeTransaction { db: Realm ->
+                            val users = db.createObject<User>()
+                            users.user_id = it.data.id.toString()
+                            users.password = it.data.password.toString()
+                            users.user_name = it.data.name.toString()
+                            users.api_token = it.data.api_token.toString()
+                        }
+                    } else {
+                        Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            dialog.isCancelable = false
+            dialog.show(supportFragmentManager, "send_name_dialog")
         }
     }
 
