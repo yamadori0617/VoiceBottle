@@ -4,15 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.voicebottle.AudioRecording
-import com.example.voicebottle.R
-import com.example.voicebottle.databinding.FragmentRecordBinding
 import com.example.voicebottle.databinding.FragmentReplyBinding
 import io.realm.Realm
 import io.realm.kotlin.where
@@ -41,8 +35,8 @@ class ReplyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.list.layoutManager = LinearLayoutManager(context)
-        val audio_recording = realm.where<AudioRecording>().findAll()
-        val adapter = ReplyAdapter(audio_recording)
+        val audioRecording = realm.where<AudioRecording>().findAll()
+        val adapter = ReplyAdapter(audioRecording)
         binding.list.adapter = adapter
     }
 

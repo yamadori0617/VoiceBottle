@@ -1,14 +1,11 @@
 package com.example.voicebottle.ui.list
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.voicebottle.R
 import com.example.voicebottle.databinding.FragmentListBinding
-import com.example.voicebottle.databinding.FragmentReplyBinding
 
 class ListFragment : Fragment() {
     // TODO: Rename and change types of parameters

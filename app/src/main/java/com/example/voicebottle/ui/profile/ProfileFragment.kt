@@ -5,9 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.voicebottle.R
 import com.example.voicebottle.databinding.FragmentProfileBinding
-import com.example.voicebottle.databinding.FragmentReplyBinding
 
 class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters

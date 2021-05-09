@@ -1,10 +1,7 @@
 package com.example.voicebottle
 
-import androidx.annotation.Nullable
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 open class AudioRecording : RealmObject() {
