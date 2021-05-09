@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.emrekose.recordbutton.OnRecordListener
 import com.example.voicebottle.AudioRecording
 import com.example.voicebottle.ConfirmDialog
@@ -24,6 +25,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val LOG_TAG = "RecordFragment"
+private const val LATEST_REC_DATE = "LATEST_REC_DATE"
 
 class RecordFragment : Fragment() {
     private var _binding: FragmentRecordBinding? = null
@@ -34,7 +36,7 @@ class RecordFragment : Fragment() {
     private var fileName: String = ""
     lateinit var latestRecordingDate: String
     lateinit var sendNameFile: File
-    lateinit var latestFile: File
+    lateinit var latestNameFile: File
     private var recorder: MediaRecorder? = null
     private var player: MediaPlayer? = null
 
@@ -105,18 +107,24 @@ class RecordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRecordBinding.inflate(inflater, container, false)
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        latestRecordingDate = pref.getString(LATEST_REC_DATE, "").toString()
+        sendNameFile =  File(context?.filesDir,
+            "${audioFilePath}/${latestRecordingDate}.3gp")
+        binding.recordDateText.text = latestRecordingDate
         return binding.root
     }
 
     @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        latestFile = File(context?.filesDir, "${audioFilePath}/latestRecord.3gp")
-        if (latestFile.exists()) {
+        latestNameFile = File(context?.filesDir, "${audioFilePath}/latestRecord.3gp")
+        if (latestNameFile.exists()) {
             binding.soundWaveImage.visibility = View.VISIBLE
+            binding.recordDateText.visibility = View.VISIBLE
         }
 
-        fileName = latestFile.toString()
+        fileName = latestNameFile.toString()
         val format = SimpleDateFormat("yyyyMMdd_HHmmss")
         val recordButton = binding.recordButton
 
@@ -158,13 +166,19 @@ class RecordFragment : Fragment() {
             }
 
             private fun saveLatestRecording() {
-                binding.soundWaveImage.visibility = View.VISIBLE
                 val date = Date()
                 latestRecordingDate = format.format(date)
-                binding.recordDateText.text = latestRecordingDate
+                sendNameFile = File(
+                    context?.filesDir,
+                    "${audioFilePath}/${latestRecordingDate}.3gp"
+                )
+                val pref = PreferenceManager.getDefaultSharedPreferences(context)
+                val editor = pref.edit()
+                editor.putString(LATEST_REC_DATE, latestRecordingDate).apply()
 
-                sendNameFile =  File(context?.filesDir,
-                    "${audioFilePath}/${latestRecordingDate}.3gp")
+                binding.soundWaveImage.visibility = View.VISIBLE
+                binding.recordDateText.visibility = View.VISIBLE
+                binding.recordDateText.text = latestRecordingDate
             }
         })
 
@@ -187,12 +201,12 @@ class RecordFragment : Fragment() {
         Log.e(LOG_TAG, fileName)
 
         binding.sendButton.setOnClickListener {
-            if (latestFile.exists()) {
+            if (latestNameFile.exists()) {
                 val dialog = ConfirmDialog("送信しますか？",
                     "送信", {
                         Snackbar.make(view, "ボトルを流しました", Snackbar.LENGTH_SHORT).show()
 
-                    latestFile.renameTo(sendNameFile)
+                    latestNameFile.renameTo(sendNameFile)
 
                         realm.executeTransaction { db: Realm ->
                             val maxId = db.where<AudioRecording>().max("file_id")
