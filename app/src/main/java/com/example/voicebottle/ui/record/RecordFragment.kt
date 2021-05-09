@@ -1,25 +1,17 @@
 package com.example.voicebottle.ui.record
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
+import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.media.MediaRecorder
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.emrekose.recordbutton.OnRecordListener
-import com.emrekose.recordbutton.RecordButton
 import com.example.voicebottle.AudioRecording
 import com.example.voicebottle.ConfirmDialog
-import com.example.voicebottle.MainActivity
 import com.example.voicebottle.R
 import com.example.voicebottle.databinding.FragmentRecordBinding
 import com.google.android.material.snackbar.Snackbar
@@ -31,9 +23,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val LOG_TAG = "AudioRecord"
+private const val LOG_TAG = "RecordFragment"
 
 class RecordFragment : Fragment() {
     private var _binding: FragmentRecordBinding? = null
@@ -42,10 +32,9 @@ class RecordFragment : Fragment() {
 
     private val audioFilePath = "/AudioRecording"
     private var fileName: String = ""
-    private var latestRecordingDate: String = ""
+    lateinit var latestRecordingDate: String
     lateinit var sendNameFile: File
     lateinit var latestFile: File
-
     private var recorder: MediaRecorder? = null
     private var player: MediaPlayer? = null
 
@@ -106,7 +95,6 @@ class RecordFragment : Fragment() {
         recorder = null
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         realm = Realm.getDefaultInstance()
@@ -120,57 +108,63 @@ class RecordFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         latestFile = File(context?.filesDir, "${audioFilePath}/latestRecord.3gp")
         if (latestFile.exists()) {
             binding.soundWaveImage.visibility = View.VISIBLE
         }
+
         fileName = latestFile.toString()
-        binding.recordDateText.text = latestRecordingDate
         val format = SimpleDateFormat("yyyyMMdd_HHmmss")
         val recordButton = binding.recordButton
-        var mStartRecording = false
 
+        var mStartRecording = false
         recordButton.setRecordListener(object : OnRecordListener {
             override fun onRecord() {
-                Log.e(LOG_TAG, "onRecord: ")
                 if (!mStartRecording) {
                     mStartRecording = true
-                    onRecord(mStartRecording)
+                    try {
+                        onRecord(mStartRecording)
+                    } catch (e: Exception) {
+                        Log.e(LOG_TAG, "onRecord: ")
+                        println(e)
+                    }
                 }
             }
 
             override fun onRecordCancel() {
-                Log.e(LOG_TAG, "onRecordCancel: ")
                 mStartRecording = false
                 try {
                     onRecord(mStartRecording)
-                    binding.soundWaveImage.visibility = View.VISIBLE
-                    val date = Date()
-                    latestRecordingDate = format.format(date)
-                    binding.recordDateText.text = latestRecordingDate
-                    //binding.recordDateText.text = fileName
-
-                    sendNameFile =  File(context?.filesDir,
-                            "${audioFilePath}/${latestRecordingDate}.3gp")
                 } catch (e: Exception) {
-
+                    Log.e(LOG_TAG, "onRecordCancel: ")
+                    println(e)
                 }
+                saveLatestRecording()
             }
 
             override fun onRecordFinish() {
-                Log.e(LOG_TAG, "onRecordFinish: ")
                 mStartRecording = false
-                onRecord(mStartRecording)
+                try {
+                    onRecord(mStartRecording)
+                    saveLatestRecording()
+                } catch (e: Exception) {
+                    Log.e(LOG_TAG, "onRecordFinish: ")
+                    println(e)
+                }
+                saveLatestRecording()
+            }
+
+            private fun saveLatestRecording() {
                 binding.soundWaveImage.visibility = View.VISIBLE
                 val date = Date()
                 latestRecordingDate = format.format(date)
                 binding.recordDateText.text = latestRecordingDate
 
                 sendNameFile =  File(context?.filesDir,
-                        "${audioFilePath}/${latestRecordingDate}.3gp")
+                    "${audioFilePath}/${latestRecordingDate}.3gp")
             }
         })
 
@@ -192,14 +186,13 @@ class RecordFragment : Fragment() {
         }
         Log.e(LOG_TAG, fileName)
 
-
         binding.sendButton.setOnClickListener {
             if (latestFile.exists()) {
                 val dialog = ConfirmDialog("送信しますか？",
                     "送信", {
                         Snackbar.make(view, "ボトルを流しました", Snackbar.LENGTH_SHORT).show()
 
-                        val newNameFile = latestFile.renameTo(sendNameFile)
+                    latestFile.renameTo(sendNameFile)
 
                         realm.executeTransaction { db: Realm ->
                             val maxId = db.where<AudioRecording>().max("file_id")
@@ -210,7 +203,6 @@ class RecordFragment : Fragment() {
                             audioRecording.sender_name = ""
                             audioRecording.created_at = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
                         }
-
                         binding.soundWaveImage.visibility = View.INVISIBLE
                         binding.recordDateText.visibility = View.INVISIBLE
                     },
@@ -222,10 +214,6 @@ class RecordFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -235,5 +223,4 @@ class RecordFragment : Fragment() {
         super.onDestroy()
         realm.close()
     }
-
 }

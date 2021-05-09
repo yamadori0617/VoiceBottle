@@ -1,15 +1,12 @@
 package com.example.voicebottle.ui.reply
 
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.voicebottle.AudioRecording
-import com.example.voicebottle.ui.record.RecordFragment
 import io.realm.OrderedRealmCollection
-import io.realm.Realm.init
 import io.realm.RealmRecyclerViewAdapter
 
 class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
