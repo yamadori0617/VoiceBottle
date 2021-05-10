@@ -1,11 +1,14 @@
 package com.example.voicebottle.ui.reply
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.voicebottle.AudioRecording
+import com.example.voicebottle.R
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 
@@ -16,6 +19,7 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
 
     fun setOnItemClickListener(listener:(String?) -> Unit) {
         this.listener = listener
+
     }
 
     init {
@@ -23,22 +27,34 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
     }
 
     class ViewHolder(cell: View) : RecyclerView.ViewHolder(cell) {
-        val created_at: TextView = cell.findViewById(android.R.id.text1)
-        val sender_name: TextView = cell.findViewById(android.R.id.text2)
+        val created_at: TextView = cell.findViewById(R.id.textView1)
+        val sender_name: TextView = cell.findViewById(R.id.textView2)
+        val cellPlaybackButton: ImageButton = cell.findViewById(R.id.cellPlaybackButton)
+        val cellReplyButton: ImageButton = cell.findViewById(R.id.cellReplyButton)
+        var mStartPlaying = true
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            ReplyAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(android.R.layout.simple_list_item_2, parent, false)
+        val view = inflater.inflate(R.layout.item, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ReplyAdapter.ViewHolder,
-                                  position: Int) {
+    @SuppressLint("ResourceAsColor")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val audioRecording: AudioRecording? = getItem(position)
         holder.created_at.text = audioRecording?.created_at
         holder.sender_name.text = audioRecording?.sender_name
+        holder.cellPlaybackButton.setOnClickListener {
+            if (holder.mStartPlaying) {
+                holder.mStartPlaying = false
+                holder.cellPlaybackButton.setImageResource(R.drawable.ic_baseline_pause_24)
+            } else {
+                holder.mStartPlaying = true
+                holder.cellPlaybackButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+            }
+        }
+
         holder.itemView.setOnClickListener {
             listener?.invoke(audioRecording?.file_path)
             //RecordFragment().onPlay(true)

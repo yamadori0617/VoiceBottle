@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="shiracha">#ffeede</color>
     <color name="kuwairo">#e0c9aa</color>
+    <color name="dark_brown">#0e0202</color>
+    <color name="transparent">#00000000</color>
 </resources>

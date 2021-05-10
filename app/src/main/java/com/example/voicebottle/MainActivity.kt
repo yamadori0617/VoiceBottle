@@ -1,12 +1,9 @@
 package com.example.voicebottle
 
 import android.Manifest
-import android.app.Dialog
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.text.Layout
-import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -102,7 +99,6 @@ class MainActivity : AppCompatActivity() {
             dialog.isCancelable = false
             dialog.show(supportFragmentManager, "send_name_dialog")
         }
-
     }
 
     override fun onResume() {
