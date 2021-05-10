@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.voicebottle.AudioRecording
 import com.example.voicebottle.databinding.FragmentReplyBinding
@@ -33,10 +34,14 @@ class ReplyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.list.layoutManager = LinearLayoutManager(context)
+        val linearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager.reverseLayout = true
+        linearLayoutManager.stackFromEnd = true
+        binding.list.layoutManager = linearLayoutManager
         val audioRecording = realm.where<AudioRecording>().findAll()
         val adapter = ReplyAdapter(audioRecording)
+        val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        binding.list.addItemDecoration(itemDecoration)
         binding.list.adapter = adapter
     }
 

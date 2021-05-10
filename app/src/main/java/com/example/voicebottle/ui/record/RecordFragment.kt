@@ -14,6 +14,7 @@ import com.emrekose.recordbutton.OnRecordListener
 import com.example.voicebottle.AudioRecording
 import com.example.voicebottle.ConfirmDialog
 import com.example.voicebottle.R
+import com.example.voicebottle.User
 import com.example.voicebottle.databinding.FragmentRecordBinding
 import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
@@ -213,8 +214,9 @@ class RecordFragment : Fragment() {
                             val nextId = (maxId?.toLong() ?: 0L) + 1L
                             val audioRecording = db.createObject<AudioRecording>(nextId)
                             audioRecording.file_path = "${audioFilePath}/${latestRecordingDate}.3gp"
-                            audioRecording.sender_id = ""
-                            audioRecording.sender_name = ""
+                            val user = realm.where<User>().findFirst()
+                            audioRecording.sender_id = user?.user_id.toString()
+                            audioRecording.sender_name = user?.user_name.toString()
                             audioRecording.created_at = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
                         }
                         binding.soundWaveImage.visibility = View.INVISIBLE
