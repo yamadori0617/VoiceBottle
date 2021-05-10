@@ -1,9 +1,12 @@
 package com.example.voicebottle
 
 import android.Manifest
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.text.Layout
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -78,26 +81,28 @@ class MainActivity : AppCompatActivity() {
         realm = Realm.getDefaultInstance()
         val user = realm.where<User>().findAll().count()
         if (user == 0) {
-            val dialog = EditTextDialog("名前を入力してください", "匿名さん", "OK") {
-                val apiService = RestApiService()
-                val sendName = SendName("なんやねん。")
-                apiService.addUser(sendName) {
-                    if(it?.success == true) {
-                        realm.executeTransaction { db: Realm ->
-                            val users = db.createObject<User>()
-                            users.user_id = it.data.id.toString()
-                            users.password = it.data.password.toString()
-                            users.user_name = it.data.name.toString()
-                            users.api_token = it.data.api_token.toString()
+            val dialog = EditTextDialog("名前を入力してください", "匿名さん", "OK",
+                fun(userText: String) {
+                    val apiService = RestApiService()
+                    val sendName = SendName(userText)
+                    apiService.addUser(sendName) {
+                        if (it?.success == true) {
+                            realm.executeTransaction { db: Realm ->
+                                val users = db.createObject<User>()
+                                users.user_id = it.data.id.toString()
+                                users.password = it.data.password.toString()
+                                users.user_name = it.data.name.toString()
+                                users.api_token = it.data.api_token.toString()
+                            }
+                        } else {
+                            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
                         }
-                    } else {
-                        Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
                     }
-                }
-            }
+                })
             dialog.isCancelable = false
             dialog.show(supportFragmentManager, "send_name_dialog")
         }
+
     }
 
     override fun onResume() {

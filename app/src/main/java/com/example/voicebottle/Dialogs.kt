@@ -3,6 +3,7 @@ package com.example.voicebottle
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 
@@ -28,17 +29,17 @@ class ConfirmDialog(private val message: String,
 class EditTextDialog(private val message: String,
                      private val hint: String,
                      private val okLabel: String,
-                     private val okSelected: () -> Unit,
-                     )
+                     private val okSelected: (String) -> Unit)
     : DialogFragment() {
 
     override fun onCreateDialog (savedInstanceState: Bundle?): Dialog {
-        val input: EditText = EditText(requireActivity())
         val builder = AlertDialog.Builder(requireActivity())
+        val input = EditText(requireActivity())
         builder.setMessage(message)
         builder.setView(input)
         builder.setPositiveButton(okLabel) { dialog, which ->
-            okSelected()
+            val userText = input.text.toString()
+            okSelected(userText)
         }
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(false)
