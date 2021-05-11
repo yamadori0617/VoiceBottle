@@ -11,6 +11,8 @@ import com.example.voicebottle.AudioRecording
 import com.example.voicebottle.R
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
+import java.io.File
+import kotlin.coroutines.coroutineContext
 
 class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
     RealmRecyclerViewAdapter<AudioRecording, ReplyAdapter.ViewHolder>(data, true){
@@ -19,7 +21,6 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
 
     fun setOnItemClickListener(listener:(String?) -> Unit) {
         this.listener = listener
-
     }
 
     init {
@@ -49,6 +50,8 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
             if (holder.mStartPlaying) {
                 holder.mStartPlaying = false
                 holder.cellPlaybackButton.setImageResource(R.drawable.ic_baseline_pause_24)
+                println(audioRecording?.file_path)
+                //File(, "${audioRecording?.file_path}")
             } else {
                 holder.mStartPlaying = true
                 holder.cellPlaybackButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
@@ -57,7 +60,6 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
 
         holder.itemView.setOnClickListener {
             listener?.invoke(audioRecording?.file_path)
-            //RecordFragment().onPlay(true)
         }
     }
 
