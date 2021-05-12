@@ -5,15 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.voicebottle.AudioRecording
+import com.example.voicebottle.User
 import com.example.voicebottle.databinding.FragmentListBinding
+import io.realm.Realm
+import io.realm.kotlin.where
 
 class ListFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
+    private lateinit var realm: Realm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        realm = Realm.getDefaultInstance()
     }
 
     override fun onCreateView(
@@ -25,6 +33,20 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val linearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager.reverseLayout = true
+        linearLayoutManager.stackFromEnd = true
+        binding.list.layoutManager = linearLayoutManager
+        val myid = realm.where<User>().findFirst()?.user_id
+        val audioRecording = realm.where<AudioRecording>().equalTo("sender_id",myid).findAll()
+        val adapter = ListAdapter(audioRecording)
+        val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        binding.list.addItemDecoration(itemDecoration)
+        binding.list.adapter = adapter
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -32,6 +54,7 @@ class ListFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        realm.close()
     }
 
 }

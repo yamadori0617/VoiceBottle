@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.voicebottle.AudioRecording
+import com.example.voicebottle.User
 import com.example.voicebottle.databinding.FragmentReplyBinding
 import io.realm.Realm
 import io.realm.kotlin.where
@@ -38,7 +39,8 @@ class ReplyFragment : Fragment() {
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
         binding.list.layoutManager = linearLayoutManager
-        val audioRecording = realm.where<AudioRecording>().findAll()
+        val myid = realm.where<User>().findFirst()?.user_id
+        val audioRecording = realm.where<AudioRecording>().notEqualTo("sender_id", myid).findAll()
         val adapter = ReplyAdapter(audioRecording)
         val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         binding.list.addItemDecoration(itemDecoration)
@@ -52,6 +54,7 @@ class ReplyFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        realm.close()
     }
 
 }

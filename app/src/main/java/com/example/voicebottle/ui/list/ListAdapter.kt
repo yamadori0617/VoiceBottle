@@ -1,4 +1,5 @@
-package com.example.voicebottle.ui.reply
+package com.example.voicebottle.ui.list
+
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
@@ -17,8 +18,8 @@ import java.io.File
 import java.io.IOException
 
 
-class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
-    RealmRecyclerViewAdapter<AudioRecording, ReplyAdapter.ViewHolder>(data, true){
+class ListAdapter (data: OrderedRealmCollection<AudioRecording>) :
+    RealmRecyclerViewAdapter<AudioRecording, ListAdapter.ViewHolder>(data, true){
     private val LOG_TAG = "RecordFragment"
     private var listener: ((String?) -> Unit)? = null
     private var player: MediaPlayer? = null
@@ -62,13 +63,12 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
         val created_at: TextView = cell.findViewById(R.id.textView1)
         val sender_name: TextView = cell.findViewById(R.id.textView2)
         val cellPlaybackButton: ImageButton = cell.findViewById(R.id.cellPlaybackButton)
-        val cellReplyButton: ImageButton = cell.findViewById(R.id.cellReplyButton)
         var mStartPlaying = true
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.reply_item, parent, false)
+        val view = inflater.inflate(R.layout.list_item, parent, false)
         return ViewHolder(view)
     }
 
