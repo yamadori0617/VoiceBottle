@@ -11,10 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.emrekose.recordbutton.OnRecordListener
-import com.example.voicebottle.AudioRecording
-import com.example.voicebottle.ConfirmDialog
-import com.example.voicebottle.R
-import com.example.voicebottle.User
+import com.example.voicebottle.*
 import com.example.voicebottle.databinding.FragmentRecordBinding
 import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
@@ -40,6 +37,7 @@ class RecordFragment : Fragment() {
     lateinit var latestNameFile: File
     private var recorder: MediaRecorder? = null
     private var player: MediaPlayer? = null
+
 
     private fun onRecord(start: Boolean) = if (start) {
         startRecording()
@@ -110,8 +108,7 @@ class RecordFragment : Fragment() {
         _binding = FragmentRecordBinding.inflate(inflater, container, false)
         val pref = PreferenceManager.getDefaultSharedPreferences(context)
         latestRecordingDate = pref.getString(LATEST_REC_DATE, "").toString()
-        sendNameFile =  File(context?.filesDir,
-            "${audioFilePath}/${latestRecordingDate}.3gp")
+        sendNameFile =  File(context?.filesDir, "${audioFilePath}/${latestRecordingDate}.3gp")
         binding.recordDateText.text = latestRecordingDate
         return binding.root
     }
@@ -138,7 +135,6 @@ class RecordFragment : Fragment() {
                         onRecord(mStartRecording)
                     } catch (e: Exception) {
                         Log.e(LOG_TAG, "onRecord: ")
-                        println(e)
                     }
                 }
             }
@@ -149,7 +145,6 @@ class RecordFragment : Fragment() {
                     onRecord(mStartRecording)
                 } catch (e: Exception) {
                     Log.e(LOG_TAG, "onRecordCancel: ")
-                    println(e)
                 }
                 saveLatestRecording()
             }
@@ -161,7 +156,6 @@ class RecordFragment : Fragment() {
                     saveLatestRecording()
                 } catch (e: Exception) {
                     Log.e(LOG_TAG, "onRecordFinish: ")
-                    println(e)
                 }
                 saveLatestRecording()
             }
@@ -169,9 +163,7 @@ class RecordFragment : Fragment() {
             private fun saveLatestRecording() {
                 val date = Date()
                 latestRecordingDate = format.format(date)
-                sendNameFile = File(
-                    context?.filesDir,
-                    "${audioFilePath}/${latestRecordingDate}.3gp"
+                sendNameFile = File(context?.filesDir, "${audioFilePath}/${latestRecordingDate}.3gp"
                 )
                 val pref = PreferenceManager.getDefaultSharedPreferences(context)
                 val editor = pref.edit()
@@ -199,7 +191,6 @@ class RecordFragment : Fragment() {
             }
             mStartPlaying = !mStartPlaying
         }
-        Log.e(LOG_TAG, fileName)
 
         binding.sendButton.setOnClickListener {
             if (latestNameFile.exists()) {

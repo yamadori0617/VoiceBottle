@@ -1,6 +1,8 @@
 package com.example.voicebottle.ui.reply
 
 import android.annotation.SuppressLint
+import android.media.MediaPlayer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,20 +13,50 @@ import com.example.voicebottle.AudioRecording
 import com.example.voicebottle.R
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
+import java.io.File
+import java.io.IOException
+
 
 class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
     RealmRecyclerViewAdapter<AudioRecording, ReplyAdapter.ViewHolder>(data, true){
-
+    private val LOG_TAG = "RecordFragment"
     private var listener: ((String?) -> Unit)? = null
+    private lateinit var fileName: String
+    private var player: MediaPlayer? = null
 
     fun setOnItemClickListener(listener:(String?) -> Unit) {
         this.listener = listener
-
     }
 
     init {
         setHasStableIds(true)
     }
+
+
+    fun onPlay(start: Boolean) = if (start) {
+        startPlaying()
+    } else {
+        stopPlaying()
+    }
+
+    private fun startPlaying() {
+        player = MediaPlayer().apply {
+            try {
+                setDataSource(fileName)
+                setVolume(0.78F, 0.78F)
+                prepare()
+                start()
+            } catch (e: IOException) {
+                Log.e(LOG_TAG, "prepare() failed")
+            }
+        }
+    }
+
+    private fun stopPlaying() {
+        player?.release()
+        player = null
+    }
+
 
     class ViewHolder(cell: View) : RecyclerView.ViewHolder(cell) {
         val created_at: TextView = cell.findViewById(R.id.textView1)
@@ -47,9 +79,12 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
         holder.sender_name.text = audioRecording?.sender_name
         holder.cellPlaybackButton.setOnClickListener {
             if (holder.mStartPlaying) {
+                fileName = File(it.context.filesDir, "${audioRecording?.file_path}").toString()
+                onPlay(holder.mStartPlaying)
                 holder.mStartPlaying = false
                 holder.cellPlaybackButton.setImageResource(R.drawable.ic_baseline_pause_24)
             } else {
+                onPlay(holder.mStartPlaying)
                 holder.mStartPlaying = true
                 holder.cellPlaybackButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
             }
@@ -57,7 +92,6 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
 
         holder.itemView.setOnClickListener {
             listener?.invoke(audioRecording?.file_path)
-            //RecordFragment().onPlay(true)
         }
     }
 
