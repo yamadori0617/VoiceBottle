@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                                 user.api_token = it.data.api_token
                             }
                         } else {
-                            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+                            finish()
                         }
                     }
                 }

@@ -30,7 +30,11 @@
             app:argType="string" />
         <action
             android:id="@+id/action_navigation_reply_to_navigation_record"
-            app:destination="@id/navigation_record"></action>
+            app:destination="@id/navigation_record"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"></action>
     </fragment>
 
     <fragment

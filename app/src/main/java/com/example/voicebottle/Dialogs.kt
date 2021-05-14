@@ -3,8 +3,11 @@ package com.example.voicebottle
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.renderscript.ScriptGroup
+import android.text.InputFilter
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.snackbar.Snackbar
 
 class ConfirmDialog(private val message: String,
                     private val okLabel: String,
@@ -33,7 +36,9 @@ class EditTextDialog(private val message: String,
 
     override fun onCreateDialog (savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
-        val input = EditText(requireActivity())
+        val input = EditText(requireActivity()).apply {
+            filters = arrayOf(InputFilter.LengthFilter(10))
+        }
         builder.setMessage(message)
         builder.setView(input)
         builder.setPositiveButton(okLabel) { dialog, which ->
