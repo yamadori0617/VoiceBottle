@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.voicebottle.AudioRecording
@@ -18,6 +19,8 @@ class ReplyFragment : Fragment() {
     private var _binding: FragmentReplyBinding? = null
     private val binding get() = _binding!!
     private lateinit var realm: Realm
+    var reply_id: String? = ""
+    var reply_name: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +44,16 @@ class ReplyFragment : Fragment() {
         binding.list.layoutManager = linearLayoutManager
         val myid = realm.where<User>().findFirst()?.user_id
         val audioRecording = realm.where<AudioRecording>().notEqualTo("sender_id", myid).findAll()
-        val adapter = ReplyAdapter(audioRecording)
-        val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        binding.list.addItemDecoration(itemDecoration)
-        binding.list.adapter = adapter
+        val count = audioRecording.count()
+        if (count > 0) {
+            val adapter = ReplyAdapter(audioRecording)
+            val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            binding.list.addItemDecoration(itemDecoration)
+            binding.list.adapter = adapter
+            binding.noDataText.visibility = View.INVISIBLE
+        } else {
+            binding.noDataText.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {

@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.voicebottle.databinding.ActivityMainBinding
+import com.example.voicebottle.ui.home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.realm.Realm
 import io.realm.kotlin.createObject
@@ -19,17 +20,14 @@ import io.realm.kotlin.where
 import java.io.File
 
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
-private const val AUDIO_RECORD_DIR = "/AudioRecording"
 
 class MainActivity : AppCompatActivity() {
     private  lateinit var binding: ActivityMainBinding
-
+    private lateinit var player: MediaPlayer
+    private lateinit var realm: Realm
     private var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
-    private lateinit var player: MediaPlayer
-
-    private lateinit var realm: Realm
 
     override fun onRequestPermissionsResult(
             requestCode: Int,
@@ -42,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             false
         }
-
         if (!permissionToRecordAccepted) {
             finish()
         }
@@ -54,13 +51,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-                setOf(
-                        R.id.navigation_home, R.id.navigation_record, R.id.navigation_reply
-                )
-        )
+        val appBarConfiguration = AppBarConfiguration(setOf(
+                        R.id.navigation_home, R.id.navigation_record, R.id.navigation_reply,
+                        R.id.navigation_list, R.id.navigation_profile))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -76,8 +69,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         realm = Realm.getDefaultInstance()
-        val user = realm.where<User>().findAll().count()
-        if (user == 0) {
+        val count = realm.where<User>().findAll().count()
+        if (count == 0) {
             val dialog = EditTextDialog("名前を入力してください", "匿名さん", "OK",
                 fun(userText: String) {
                     val apiService = RestApiService()
@@ -85,17 +78,18 @@ class MainActivity : AppCompatActivity() {
                     apiService.addUser(sendName) {
                         if (it?.success == true) {
                             realm.executeTransaction { db: Realm ->
-                                val users = db.createObject<User>()
-                                users.user_id = it.data.id.toString()
-                                users.password = it.data.password.toString()
-                                users.user_name = it.data.name.toString()
-                                users.api_token = it.data.api_token.toString()
+                                val user = db.createObject<User>()
+                                user.user_id = it.data.id
+                                user.password = it.data.password
+                                user.user_name = it.data.name
+                                user.api_token = it.data.api_token
                             }
                         } else {
                             Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
-                })
+                }
+            )
             dialog.isCancelable = false
             dialog.show(supportFragmentManager, "send_name_dialog")
         }
