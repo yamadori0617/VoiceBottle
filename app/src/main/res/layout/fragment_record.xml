@@ -11,17 +11,19 @@
         android:id="@+id/recordButton"
         android:layout_width="126dp"
         android:layout_height="116dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
+        app:buttonColor="@color/kuwairo"
         app:buttonGap="10dp"
-        app:buttonRadius="40dp"
+        app:buttonRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:maxMilisecond="10000"
-        app:progressColor="#ff0000"
+        app:progressColor="@color/kuwairo"
+        app:progressEmptyColor="@color/white"
         app:progressStroke="10"
-        app:recordIcon="@drawable/ic_keyboard_voice_white_36dp" />
+        app:recordIcon="@drawable/ic_keyboard_voice_white_30dp" />
 
     <TextView
         android:id="@+id/recordDateText"
@@ -42,6 +44,7 @@
         android:id="@+id/glassBottleImage"
         android:layout_width="195dp"
         android:layout_height="145dp"
+        android:alpha="0.7"
         android:src="@drawable/img_glass_bottle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,5 +92,17 @@
         android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/playbackButton"
         app:layout_constraintTop_toBottomOf="@+id/soundWaveImage" />
+
+    <TextView
+        android:id="@+id/toNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/pastel_crayon"
+        android:textColor="@color/kuwairo"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/sendButton"
+        app:layout_constraintStart_toStartOf="@+id/sendButton"
+        app:layout_constraintTop_toBottomOf="@+id/sendButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

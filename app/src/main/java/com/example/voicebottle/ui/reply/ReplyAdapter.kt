@@ -2,12 +2,14 @@ package com.example.voicebottle.ui.reply
 
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.voicebottle.AudioRecording
 import com.example.voicebottle.R
@@ -31,32 +33,6 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
     init {
         setHasStableIds(true)
     }
-
-
-    fun onPlay(start: Boolean) = if (start) {
-        startPlaying()
-    } else {
-        stopPlaying()
-    }
-
-    private fun startPlaying() {
-        player = MediaPlayer().apply {
-            try {
-                setDataSource(fileName)
-                setVolume(0.78F, 0.78F)
-                prepare()
-                start()
-            } catch (e: IOException) {
-                Log.e(LOG_TAG, "prepare() failed")
-            }
-        }
-    }
-
-    private fun stopPlaying() {
-        player?.release()
-        player = null
-    }
-
 
     class ViewHolder(cell: View) : RecyclerView.ViewHolder(cell) {
         val created_at: TextView = cell.findViewById(R.id.textView1)
@@ -89,6 +65,14 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
                 holder.cellPlaybackButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
             }
         }
+        holder.cellReplyButton.setOnClickListener {
+            val reply_id = audioRecording?.sender_id
+            val reply_name = audioRecording?.sender_name
+            it.findNavController().navigate(R.id.action_navigation_reply_to_navigation_record, Bundle().apply {
+                putString("REPLY_ID", reply_id)
+                putString("REPLY_NAME", reply_name)
+            })
+        }
 
         holder.itemView.setOnClickListener {
             listener?.invoke(audioRecording?.file_path)
@@ -99,4 +83,27 @@ class ReplyAdapter (data: OrderedRealmCollection<AudioRecording>) :
         return getItem(position)?.file_id ?: 0
     }
 
+    fun onPlay(start: Boolean) = if (start) {
+        startPlaying()
+    } else {
+        stopPlaying()
+    }
+
+    private fun startPlaying() {
+        player = MediaPlayer().apply {
+            try {
+                setDataSource(fileName)
+                setVolume(0.78F, 0.78F)
+                prepare()
+                start()
+            } catch (e: IOException) {
+                Log.e(LOG_TAG, "prepare() failed")
+            }
+        }
+    }
+
+    private fun stopPlaying() {
+        player?.release()
+        player = null
+    }
 }

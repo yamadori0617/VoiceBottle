@@ -41,10 +41,16 @@ class ListFragment : Fragment() {
         binding.list.layoutManager = linearLayoutManager
         val myid = realm.where<User>().findFirst()?.user_id
         val audioRecording = realm.where<AudioRecording>().equalTo("sender_id",myid).findAll()
-        val adapter = ListAdapter(audioRecording)
-        val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        binding.list.addItemDecoration(itemDecoration)
-        binding.list.adapter = adapter
+        val count = audioRecording.count()
+        if (count > 0) {
+            val adapter = ListAdapter(audioRecording)
+            val itemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            binding.list.addItemDecoration(itemDecoration)
+            binding.list.adapter = adapter
+            binding.noDataText2.visibility = View.INVISIBLE
+        } else {
+            binding.noDataText2.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {

@@ -21,7 +21,17 @@
         android:id="@+id/navigation_reply"
         android:name="com.example.voicebottle.ui.reply.ReplyFragment"
         android:label="@string/title_reply"
-        tools:layout="@layout/fragment_reply" />
+        tools:layout="@layout/fragment_reply">
+        <argument
+            android:name="reply_id"
+            app:argType="string" />
+        <argument
+            android:name="reply_name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_navigation_reply_to_navigation_record"
+            app:destination="@id/navigation_record"></action>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_list"
