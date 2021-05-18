@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
-
     override fun onRequestPermissionsResult(
             requestCode: Int,
             permissions: Array<String>,
@@ -85,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                                 user.api_token = it.data.api_token
                             }
                         } else {
-                            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+                            finish()
                         }
                     }
                 }
@@ -103,5 +102,10 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         player.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
     }
 }

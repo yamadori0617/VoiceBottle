@@ -1,5 +1,8 @@
 package com.example.voicebottle
 
+import android.content.Context
+import android.view.View
+import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -68,7 +71,7 @@ class RestApiService {
     fun getMessage(sendApiToken: SendApiToken, onResult: (GetMessage?) -> Unit) {
         val retrofit = ServiceBuilder.buildService(ApiService::class.java)
         retrofit.getMessage(sendApiToken).enqueue(
-            object : Callback<GetMessage> {
+        object : Callback<GetMessage> {
                 override fun onFailure(call: Call<GetMessage>, t: Throwable) {
                     onResult(null)
                     println("onFailure")
@@ -105,6 +108,7 @@ object ServiceBuilder {
         return retrofit.create(service)
     }
 }
+
 
 data class RegUser(
         var success: Boolean,

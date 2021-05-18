@@ -42,6 +42,7 @@ class ReplyFragment : Fragment() {
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
         binding.list.layoutManager = linearLayoutManager
+
         val myid = realm.where<User>().findFirst()?.user_id
         val audioRecording = realm.where<AudioRecording>().notEqualTo("sender_id", myid).findAll()
         val count = audioRecording.count()
@@ -51,6 +52,14 @@ class ReplyFragment : Fragment() {
             binding.list.addItemDecoration(itemDecoration)
             binding.list.adapter = adapter
             binding.noDataText.visibility = View.INVISIBLE
+
+            val fromHome = arguments?.getBoolean("FROM_HOME", false)
+            if (fromHome == true) {
+                binding.exclamationImage.visibility = View.VISIBLE
+            } else {
+                binding.exclamationImage.visibility = View.INVISIBLE
+            }
+
         } else {
             binding.noDataText.visibility = View.VISIBLE
         }
