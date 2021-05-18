@@ -6,14 +6,57 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <ImageButton
-        android:id="@+id/reloadButton"
+    <TextView
+        android:id="@+id/fromNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/pastel_crayon"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/kuwairo"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/newGlassBottleImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/newGlassBottleImage"
+        android:layout_width="195dp"
+        android:layout_height="145dp"
+        android:alpha="0.7"
+        android:src="@drawable/img_glass_bottle"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.535" />
+
+    <ImageView
+        android:id="@+id/newSoundWaveImage"
+        android:layout_width="120dp"
+        android:layout_height="53dp"
+        android:rotation="-27"
+        android:src="@drawable/ic_voice_wave"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/newGlassBottleImage"
+        app:layout_constraintEnd_toEndOf="@+id/newGlassBottleImage"
+        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintStart_toStartOf="@+id/newGlassBottleImage"
+        app:layout_constraintTop_toTopOf="@+id/newGlassBottleImage"
+        app:layout_constraintVertical_bias="0.532" />
+
+    <ImageButton
+        android:id="@+id/reloadButton"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="144dp"
         android:backgroundTint="@color/transparent"
-        android:src="@drawable/ic_baseline_refresh_24"
+        android:scaleType="center"
+        android:src="@drawable/ic_baseline_reply"
         android:tint="@color/kuwairo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pastel_crayon"
-        android:text="Nathing yet"
+        android:text="no bottle"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/kuwairo"
         android:visibility="visible"
@@ -32,5 +75,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.581" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/transparent"
+        android:indeterminateTint="@color/kuwairo"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/noMsgText"
+        app:layout_constraintTop_toTopOf="@+id/noMsgText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
