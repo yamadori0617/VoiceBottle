@@ -14,7 +14,7 @@
 バックエンド  : Laravel・PHP
 
 ## デモ
-![Screenshot_20210519-204206](https://user-images.githubusercontent.com/51155766/118807756-a9c0bd80-b8e3-11eb-8990-0f0b2904208b.png)
+<img src="https://user-images.githubusercontent.com/51155766/118807756-a9c0bd80-b8e3-11eb-8990-0f0b2904208b.png" width="200px">
 
 
 
