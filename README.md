@@ -14,14 +14,11 @@
 バックエンド  : Laravel・PHP
 
 ## デモ
-<tr>
-  <td><img src="https://user-images.githubusercontent.com/51155766/118807756-a9c0bd80-b8e3-11eb-8990-0f0b2904208b.png" width="200px"></td>
-  <td><img src="https://user-images.githubusercontent.com/51155766/118807756-a9c0bd80-b8e3-11eb-8990-0f0b2904208b.png" width="200px"></td>
-  <td><img src="https://user-images.githubusercontent.com/51155766/118807756-a9c0bd80-b8e3-11eb-8990-0f0b2904208b.png" width="200px"></td>
-  <td><img src="https://user-images.githubusercontent.com/51155766/118807756-a9c0bd80-b8e3-11eb-8990-0f0b2904208b.png" width="200px"></td>
-  <td><img src="https://user-images.githubusercontent.com/51155766/118807756-a9c0bd80-b8e3-11eb-8990-0f0b2904208b.png" width="200px"></td>
-</tr>
-
+<table border="5" rules="none">
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/51155766/118807756-a9c0bd80-b8e3-11eb-8990-0f0b2904208b.png" </td>
+  </tr>
+</table>
 
 
 
