@@ -10,7 +10,8 @@
 - 送信・受信記録の一覧表示
 
 ## 開発環境
-Android Studio・Kotlin
+フロントエンド: Android Studio・Kotlin<br>
+バックエンド  : Laravel・PHP
 
 ## デモ
 ![voicebottle_asus_comp](https://user-images.githubusercontent.com/51155766/118804708-00c49380-b8e0-11eb-9e86-55285245116b.gif)
