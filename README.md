@@ -23,9 +23,10 @@
   <tr>
     <td align="center"><img src="https://user-images.githubusercontent.com/51155766/118810932-623c3080-b8e7-11eb-9687-99d10c736a25.png" width="60%"></td>
     <td align="center"><img src="https://user-images.githubusercontent.com/51155766/118810960-6b2d0200-b8e7-11eb-85c4-f3aacc82e3b0.png" width="60%"></td>
+    ![voicebottle_asus_comp](https://user-images.githubusercontent.com/51155766/118804708-00c49380-b8e0-11eb-9e86-55285245116b.gif)
   </tr>
 </table>
 
-![voicebottle_asus_comp](https://user-images.githubusercontent.com/51155766/118804708-00c49380-b8e0-11eb-9e86-55285245116b.gif)
+
 ![voicebottle_pixel2_comp](https://user-images.githubusercontent.com/51155766/118804719-0326ed80-b8e0-11eb-8aae-58580f636d9f.gif)
 
