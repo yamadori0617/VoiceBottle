@@ -1,4 +1,4 @@
-# VoiceBottle
+# VoiceBottleApp
 
 ## 概要
 音声版ボトルメッセージアプリです。<br>
