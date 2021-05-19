@@ -1,5 +1,8 @@
 # VoiceBottle
 
-![Videotogif (1)](https://user-images.githubusercontent.com/51155766/118766183-0ce82b00-b8b7-11eb-9985-ea5c7adee4af.gif)
-![Videotogif (1)](https://user-images.githubusercontent.com/51155766/118766873-fbebe980-b8b7-11eb-8d90-0b1c7db77486.gif)
+
+https://user-images.githubusercontent.com/51155766/118772788-15446400-b8bf-11eb-890a-7e8d53fb7747.mp4
+https://user-images.githubusercontent.com/51155766/118772805-1bd2db80-b8bf-11eb-8335-b1e7a942c0a6.mp4
+
+
 
