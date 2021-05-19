@@ -10,8 +10,8 @@
 - 送信・受信記録の一覧表示
 
 ## 開発環境
-フロントエンド: Android Studio・Kotlin<br>
-バックエンド  : Laravel・PHP
+フロントエンド： Android Studio・Kotlin<br>
+バックエンド　： Laravel・PHP
 
 ## サンプル
 <table border=0>
