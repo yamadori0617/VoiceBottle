@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         realm = Realm.getDefaultInstance()
         val count = realm.where<User>().findAll().count()
         if (count == 0) {
-            val dialog = EditTextDialog("名前を入力してください", "匿名さん", "OK",
+            val dialog = EditTextDialog("名前を入力してください", "OK",
                 fun(userText: String) {
                     val apiService = RestApiService()
                     val sendName = SendName(userText)
