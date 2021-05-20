@@ -11,7 +11,6 @@ import io.realm.Realm
 import io.realm.kotlin.where
 
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var realm: Realm
