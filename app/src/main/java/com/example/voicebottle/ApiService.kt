@@ -31,14 +31,10 @@ class RestApiService {
                 object : Callback<RegUser> {
                     override fun onFailure(call: Call<RegUser>, t: Throwable) {
                         onResult(null)
-                        println("onFailure")
-                        println(t.message)
                     }
                     override fun onResponse( call: Call<RegUser>, response: Response<RegUser>) {
                         val addedUser = response.body()
                         onResult(addedUser)
-                        println("onResponse")
-                        println(addedUser)
                     }
                 }
         )
@@ -70,8 +66,6 @@ class RestApiService {
                 override fun onResponse(call: Call<GetMessage>, response: Response<GetMessage>) {
                     val gotMessage = response.body()
                     onResult(gotMessage)
-                    println("onResponse")
-                    println(gotMessage)
                 }
             }
         )
@@ -106,13 +100,13 @@ data class RegUser(
 
 data class RegAudio(
     var success: Boolean,
-    var data: AudioData,
+    var data: AudioPathData,
     var message: String
 )
 
 data class GetMessage(
     var success: Boolean,
-    var data: ReceiveData,
+    var data: AudioContentData,
     var message: String
 )
 
@@ -138,14 +132,14 @@ data class UserData (
         var api_token: String
 )
 
-data class AudioData (
+data class AudioPathData (
     var id: String?,
     var from_id: String?,
     var audio_path: String?,
     var delivered: Boolean?,
     )
 
-data class ReceiveData (
+data class AudioContentData (
     var from_id: String,
     var audio_path: String,
     var audio_content: String,
