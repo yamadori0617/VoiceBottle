@@ -28,5 +28,5 @@
 </table>
 
 
-<img src="https://user-images.githubusercontent.com/51155766/118941031-463e9a80-b98c-11eb-86c6-0252d4a427ab.gif" width="60%">
-<img src="https://user-images.githubusercontent.com/51155766/118944285-62900680-b98f-11eb-8541-a4da219023d7.gif" width="60%">
+<img src="https://user-images.githubusercontent.com/51155766/118941031-463e9a80-b98c-11eb-86c6-0252d4a427ab.gif" width="20%">
+<img src="https://user-images.githubusercontent.com/51155766/118944285-62900680-b98f-11eb-8541-a4da219023d7.gif" width="20%">
