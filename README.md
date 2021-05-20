@@ -13,7 +13,7 @@
 フロントエンド： Android Studio・Kotlin<br>
 バックエンド　： Laravel・PHP
 
-## サンプル
+## デモ
 <table border=0>
   <tr>
     <td align="center"><img src="https://user-images.githubusercontent.com/51155766/118928428-2a33fc80-b97e-11eb-9cd7-d6c96bb726b6.png" width="60%"></td>
