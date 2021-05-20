@@ -31,14 +31,10 @@ class RestApiService {
                 object : Callback<RegUser> {
                     override fun onFailure(call: Call<RegUser>, t: Throwable) {
                         onResult(null)
-                        println("onFailure")
-                        println(t.message)
                     }
                     override fun onResponse( call: Call<RegUser>, response: Response<RegUser>) {
                         val addedUser = response.body()
                         onResult(addedUser)
-                        println("onResponse")
-                        println(addedUser)
                     }
                 }
         )
@@ -70,8 +66,6 @@ class RestApiService {
                 override fun onResponse(call: Call<GetMessage>, response: Response<GetMessage>) {
                     val gotMessage = response.body()
                     onResult(gotMessage)
-                    println("onResponse")
-                    println(gotMessage)
                 }
             }
         )
