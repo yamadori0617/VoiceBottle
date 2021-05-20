@@ -19,8 +19,6 @@ class ReplyFragment : Fragment() {
     private var _binding: FragmentReplyBinding? = null
     private val binding get() = _binding!!
     private lateinit var realm: Realm
-    var reply_id: String? = ""
-    var reply_name: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

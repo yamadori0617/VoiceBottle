@@ -9,7 +9,6 @@ import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.voicebottle.*
 import com.example.voicebottle.databinding.FragmentHomeBinding
 import io.realm.Realm
