@@ -20,7 +20,7 @@ import java.io.IOException
 
 class ListAdapter (data: OrderedRealmCollection<AudioRecording>) :
     RealmRecyclerViewAdapter<AudioRecording, ListAdapter.ViewHolder>(data, true){
-    private val LOG_TAG = "RecordFragment"
+    private val LOG_TAG = "ListFragment"
     private var listener: ((String?) -> Unit)? = null
     private var player: MediaPlayer? = null
     private lateinit var fileName: String
@@ -34,7 +34,7 @@ class ListAdapter (data: OrderedRealmCollection<AudioRecording>) :
     }
 
 
-    fun onPlay(start: Boolean) = if (start) {
+    private fun onPlay(start: Boolean) = if (start) {
         startPlaying()
     } else {
         stopPlaying()
