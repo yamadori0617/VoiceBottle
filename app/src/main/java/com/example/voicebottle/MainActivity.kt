@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
@@ -12,7 +11,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.voicebottle.databinding.ActivityMainBinding
-import com.example.voicebottle.ui.home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.realm.Realm
 import io.realm.kotlin.createObject
@@ -70,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         realm = Realm.getDefaultInstance()
         val count = realm.where<User>().findAll().count()
         if (count == 0) {
-            val dialog = EditTextDialog("名前を入力してください", "匿名さん", "OK",
+            val dialog = EditTextDialog("名前を入力してください", "OK",
                 fun(userText: String) {
                     val apiService = RestApiService()
                     val sendName = SendName(userText)

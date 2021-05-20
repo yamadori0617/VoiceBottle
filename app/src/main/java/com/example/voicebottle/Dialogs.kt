@@ -31,7 +31,6 @@ class ConfirmDialog(private val message: String,
 }
 
 class EditTextDialog(private val message: String,
-                     private val hint: String,
                      private val okLabel: String,
                      private val okSelected: (String) -> Unit)
     : DialogFragment() {

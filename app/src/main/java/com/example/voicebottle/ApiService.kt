@@ -1,9 +1,5 @@
 package com.example.voicebottle
 
-import android.content.Context
-import android.view.View
-import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
@@ -13,7 +9,6 @@ import retrofit2.http.*
 
 
 interface ApiService {
-    //@FormUrlEncoded
     @Headers(
             "Accept: application/json",
             "Content-Type: application/json"
@@ -55,14 +50,10 @@ class RestApiService {
             object : Callback<RegAudio> {
                 override fun onFailure(call: Call<RegAudio>, t: Throwable) {
                     onResult(null)
-                    println("onFailure")
-                    println(t.message)
                 }
                 override fun onResponse(call: Call<RegAudio>, response: Response<RegAudio>) {
                     val addedAudio = response.body()
                     onResult(addedAudio)
-                    println("onResponse")
-                    println(addedAudio)
                 }
             }
         )
@@ -74,8 +65,6 @@ class RestApiService {
         object : Callback<GetMessage> {
                 override fun onFailure(call: Call<GetMessage>, t: Throwable) {
                     onResult(null)
-                    println("onFailure")
-                    println(t.message)
                 }
 
                 override fun onResponse(call: Call<GetMessage>, response: Response<GetMessage>) {
@@ -95,7 +84,6 @@ object ServiceBuilder {
             .build()
 
     private val gson = GsonBuilder()
-            //.serializeNulls()
             .create()
 
     private val retrofit = Retrofit.Builder()
