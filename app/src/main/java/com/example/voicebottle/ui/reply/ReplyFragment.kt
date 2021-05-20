@@ -29,7 +29,6 @@ class ReplyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentReplyBinding.inflate(inflater, container, false)
         return binding.root
     }
